@@ -3,6 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import RoomHeader from './RoomHeader';
 import {useEffect, useState} from 'react';
 import QueueItem from './QueueItem';
+import Ionicons from '@expo/vector-icons/Ionicons';
 export default function RoomCreator({navigation}) {
   //FIXME - TEMP
   const [songData, setSongData] = useState([
@@ -27,7 +28,7 @@ export default function RoomCreator({navigation}) {
         <SafeAreaView>
           <FlatList
             data={songData}
-            renderItem={({item}) => <QueueItem name={item.name} artist={item.artist}/>}
+            renderItem={({item, index}) => <QueueItem first={index === 0} name={item.name} artist={item.artist}/>}
           />
         </SafeAreaView>
       </View>
