@@ -1,11 +1,12 @@
-import { Text, View, StyleSheet, ImageBackground, Pressable } from "react-native"
+import { Text, View, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from "react-native"
 import { useCallback } from "react";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
+import { ScaleDecorator } from "react-native-draggable-flatlist";
 
-SplashScreen.preventAutoHideAsync()
+// SplashScreen.preventAutoHideAsync()
 
 export default function QueueItem(props){
   const [fontsLoaded] = useFonts({
@@ -28,17 +29,19 @@ export default function QueueItem(props){
       {props.first &&
         <Ionicons onPress={() => openSearchModal()} name='md-add-circle' style={{textAlign: 'center', padding: 10}}  size={50} color={'#BC7AF7'}/>
       }
-      <View style={styles.container}>
+      <View style={[styles.container, {opacity: props.isActive ? 0.5 : 1}]}>
         <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='cover' source={require('../assets/mac-demarco.png')}>
         <View style={styles.albumCoverContainer}>
         </View>
         </ImageBackground>
         <LinearGradient colors={['#855DAB', '#1A0D40']} start={[0,0]} end={[1, 0.9]} style={styles.gradient}>
-          <View>
-            <Text style={styles.songName}>{props.name}</Text>
-            <Text style={styles.artist}>{props.artist}</Text>
-          </View>
-          <Ionicons name='ios-menu-outline' style={{}} size={30} color={'#BC7AF7'}/>
+            <View>
+              <Text style={styles.songName}>{props.name}{props.isActive}</Text>
+              <Text style={styles.artist}>{props.artist}</Text>
+            </View>
+          <Pressable onPressIn={props.drag}>
+            <Ionicons name='ios-menu-outline' style={{}} size={30} color={'#BC7AF7'}/>
+          </Pressable>
         </LinearGradient>
       </View>
     </View>
