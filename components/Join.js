@@ -1,11 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
-import Ionicons from '@expo/vector-icons/Ionicons';
 import ButtonComponent from './ButtonComponent';
 import {useState} from 'react';
+import BackButton from './BackButton';
 
-export default function Home({navigation}) {
+export default function Join({navigation}) {
   const [roomCode, setroomCode] = useState('')
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.container}>
@@ -14,12 +13,13 @@ export default function Home({navigation}) {
               <Text>Enter given code to join room</Text>
             </Text>
             <View style={styles.buttonsContainer}>
-              <TextInput placeholder='#1234' value={roomCode} onChangeText={setroomCode} style={styles.roomCodeInput}/>
+              <TextInput inputMode='numeric' placeholder='#1234' value={roomCode} onChangeText={setroomCode} style={styles.roomCodeInput}/>
                 
               <TouchableOpacity onPress={() => navigation.navigate('Join')}>
                 <ButtonComponent name='Join'/>
               </TouchableOpacity>
             </View>
+            <BackButton navigation={navigation}/>
       </View>
       </LinearGradient>
   );

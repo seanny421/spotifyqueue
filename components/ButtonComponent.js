@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, Pressable } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function ButtonComponent(props){
@@ -10,25 +10,15 @@ export default function ButtonComponent(props){
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   gradient: {
     marginBottom: 20,
     padding: 15,
     paddingHorizontal: 80,
     borderRadius: 100,
   },
-  Buttons: {
-    backgroundColor: '#000'
-  },
   text: {
     textAlign: 'center',
     color: "#fff",
     fontSize: 25,
   }
-
-
 });

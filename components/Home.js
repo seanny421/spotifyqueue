@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StatusBar, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ButtonComponent from './ButtonComponent';
@@ -7,6 +6,7 @@ import ButtonComponent from './ButtonComponent';
 export default function Home({navigation}) {
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.container}>
+      <StatusBar hidden/>
       <View style={styles.container}>
             <Ionicons name='people-circle' size={150} color={'#BC7AF7'}/>
             <Text style={styles.titleText}>

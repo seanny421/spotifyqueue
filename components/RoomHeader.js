@@ -1,4 +1,4 @@
-import {SafeAreaView, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import {SafeAreaView, ImageBackground, StyleSheet, Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
@@ -24,9 +24,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: 1000,
   },
-  buttonsContainer: {
-    marginTop: 50,
-  },
   titleText: {
     fontWeight: 'bold',
     textAlign: 'center',
@@ -48,9 +45,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 20,
-
   }
-
-
 
 });
