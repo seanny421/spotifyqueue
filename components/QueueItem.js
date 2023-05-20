@@ -19,18 +19,11 @@ export default function QueueItem(props){
     }
   }, [fontsLoaded]);
 
-  //open the modal to allow main user to search & add to queue  
-  function openSearchModal(){
-
-  }
 
   return (
     <View>
-      {props.first &&
-        <Ionicons onPress={() => openSearchModal()} name='md-add-circle' style={{textAlign: 'center', padding: 10}}  size={50} color={'#BC7AF7'}/>
-      }
       <View style={[styles.container, {opacity: props.isActive ? 0.5 : 1}]}>
-        <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='cover' source={require('../assets/mac-demarco.png')}>
+        <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='cover' source={props.image}>
         <View style={styles.albumCoverContainer}>
         </View>
         </ImageBackground>
@@ -39,7 +32,7 @@ export default function QueueItem(props){
               <Text style={styles.songName}>{props.name}{props.isActive}</Text>
               <Text style={styles.artist}>{props.artist}</Text>
             </View>
-          <Pressable onPressIn={props.drag}>
+          <Pressable onPressIn={props.drag} disabled={props.isActive}>
             <Ionicons name='ios-menu-outline' style={{}} size={30} color={'#BC7AF7'}/>
           </Pressable>
         </LinearGradient>
