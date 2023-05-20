@@ -3,16 +3,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import RoomHeader from './RoomHeader';
 import {useEffect, useState} from 'react';
 import QueueItem from './QueueItem';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import DraggableFlatList from 'react-native-draggable-flatlist';
+
 export default function RoomCreator({navigation}) {
   //FIXME - TEMP
-  const [songData, setSongData] = useState([
-    {name: "Don't Cry", artist: "J Dilla"},
-    {name: "Glitter", artist: "Benee"}
-  ])
+  const [songData, setSongData] = useState([])
 
   useEffect(() => {
-    for(let i = 0; i < 20; i++){
+    for(let i = 0; i < 4; i++){
       if(i % 2 == 0)
         setSongData((songData) => [...songData, {name: "Airbender", artist: "Avatar"}])
       else
@@ -26,9 +24,11 @@ export default function RoomCreator({navigation}) {
       <View style={styles.container}>
         <RoomHeader/>
         <SafeAreaView>
-          <FlatList
+          <DraggableFlatList
             data={songData}
-            renderItem={({item, index}) => <QueueItem first={index === 0} name={item.name} artist={item.artist}/>}
+            onDragEnd={({data}) => setSongData(data)}
+            renderItem={({item, isActive, drag, getIndex}) => <QueueItem isActive={isActive} drag={drag} first={getIndex() === 0} name={item.name} artist={item.artist}/>}
+            keyExtractor={(item, index) => index}
           />
         </SafeAreaView>
       </View>
