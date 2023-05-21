@@ -1,10 +1,11 @@
-import { StyleSheet, View, SafeAreaView, FlatList} from 'react-native';
+import { StyleSheet, View, SafeAreaView, Modal, Text} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import RoomHeader from './RoomHeader';
 import {useEffect, useState} from 'react';
 import QueueItem from './QueueItem';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import SearchModal from './SearchModal';
 
 
 export default function RoomCreator({navigation}) {
@@ -17,6 +18,8 @@ export default function RoomCreator({navigation}) {
     {name: "Heart of Gold", artist: "Neil Young", image: require("../assets/neil-young.png")},
     {name: "Hey Joe", artist: "Jimi Hendrix", image: require("../assets/hendrix.png")},
   ])
+  const [searchModalVisible, setSearchModalVisible] = useState(false)
+  const [roomSettingsModal, setRoomSettingsModal] = useState(false)
 
   //open the modal to allow main user to search & add to queue  
   function openSearchModal(){
@@ -25,11 +28,13 @@ export default function RoomCreator({navigation}) {
 
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.gradient}>
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <RoomHeader/>
+        <SearchModal isVisible={searchModalVisible} setSearchModalVisible={setSearchModalVisible} />
+
         <SafeAreaView style={{flex: 1}}>
           <DraggableFlatList
-            ListHeaderComponent={() => <Ionicons onPress={() => openSearchModal()} name='md-add-circle' style={{textAlign: 'center', padding: 10}}  size={50} color={'#BC7AF7'}/>}
+            ListHeaderComponent={() => <Ionicons onPress={() => setSearchModalVisible(true)} name='md-add-circle' style={{textAlign: 'center', padding: 10}}  size={50} color={'#BC7AF7'}/>}
             data={songData}
             onDragEnd={({data}) => setSongData(data)}
             renderItem={({item, isActive, drag, getIndex}) => <QueueItem image={item.image} isActive={isActive} drag={drag} first={getIndex() === 0} name={item.name} artist={item.artist}/>}

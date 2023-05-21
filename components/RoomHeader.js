@@ -18,7 +18,7 @@ export default function RoomHeader(){
     }
   }, [fontsLoaded]);
   return(
-    <ImageBackground imageStyle={{opacity: 0.6}} style={styles.header} resizeMode='cover' source={require('../images/bg.png')}>
+    <ImageBackground imageStyle={{opacity: 0.6, height: '100%'}} style={styles.header} resizeMode='cover' source={require('../images/bg.png')}>
       <SafeAreaView style={styles.container}>
           <Ionicons name='information-circle-sharp' size={40} color={'#fff'} style={styles.topRight}/>
           <Text style={[styles.titleText, styles.topLeft]}>Sean's Queue</Text>
@@ -31,12 +31,11 @@ export default function RoomHeader(){
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
-    height: 250,
+    height: '30%',
   },
   container: {
     flex: 1,
     position: 'relative',
-    width: 1000,
   },
   titleText: {
     fontWeight: 'bold',
