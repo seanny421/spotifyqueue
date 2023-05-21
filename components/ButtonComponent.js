@@ -12,13 +12,14 @@ export default function ButtonComponent(props){
 const styles = StyleSheet.create({
   gradient: {
     marginBottom: 20,
-    padding: 15,
-    paddingHorizontal: 80,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
     borderRadius: 100,
+    width: '100%',
   },
   text: {
     textAlign: 'center',
     color: "#fff",
-    fontSize: 25,
+    fontSize: 20,
   }
 });
