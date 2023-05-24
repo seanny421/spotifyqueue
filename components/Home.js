@@ -11,7 +11,7 @@ export default function Home({navigation}) {
             <View style={{alignSelf: 'center'}}>
               <Ionicons name='people-circle' size={150} color={'#BC7AF7'}/>
               <Text style={styles.titleText}>
-                <Text>Queue</Text>
+                <Text style={{fontFamily: 'Rubik'}}>Queue</Text>
                 <Text style={{fontWeight: 'bold'}}>Hub</Text>
               </Text>
             </View>
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 30,
-    color: "#BC7AF7"
+    color: "#BC7AF7",
+    fontFamily: 'Rubik One'
   }
 
 
