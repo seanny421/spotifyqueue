@@ -1,11 +1,12 @@
-import { StyleSheet, View, SafeAreaView, Modal, Text} from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import RoomHeader from './RoomHeader';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import QueueItem from './QueueItem';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SearchModal from './SearchModal';
+import RoomSettingsModal from './RoomSettingsModal';
 
 
 export default function RoomCreator({navigation}) {
@@ -19,18 +20,14 @@ export default function RoomCreator({navigation}) {
     {name: "Hey Joe", artist: "Jimi Hendrix", image: require("../assets/hendrix.png")},
   ])
   const [searchModalVisible, setSearchModalVisible] = useState(false)
-  const [roomSettingsModal, setRoomSettingsModal] = useState(false)
-
-  //open the modal to allow main user to search & add to queue  
-  function openSearchModal(){
-
-  }
+  const [roomSettingsModalVisible, setRoomSettingsModalVisible] = useState(false)
 
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.gradient}>
       <View style={[styles.container]}>
-        <RoomHeader/>
+        <RoomHeader setRoomSettingsModalVisible={setRoomSettingsModalVisible}/>
         <SearchModal isVisible={searchModalVisible} setSearchModalVisible={setSearchModalVisible} />
+        <RoomSettingsModal isVisible={roomSettingsModalVisible} setRoomSettingsModalVisible={setRoomSettingsModalVisible} navigation={navigation}/>
 
         <SafeAreaView style={{flex: 1}}>
           <DraggableFlatList
