@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   titleText: {
-    fontWeight: 'bold',
     fontFamily: 'Rubik One',
     textAlign: 'center',
     fontSize: 30,
