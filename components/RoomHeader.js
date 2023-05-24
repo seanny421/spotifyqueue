@@ -1,26 +1,11 @@
 import {SafeAreaView, ImageBackground, StyleSheet, Text } from 'react-native';
-import { useCallback } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 
-// SplashScreen.preventAutoHideAsync()
-
-
-export default function RoomHeader(){
-  const [fontsLoaded] = useFonts({
-    'Rubik One': require('../assets/fonts/RubikOne-Regular.ttf'),
-    'Rubik': require('../assets/fonts/Rubik-Regular.ttf')
-  });
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+export default function RoomHeader({setRoomSettingsModalVisible}){
   return(
     <ImageBackground imageStyle={{opacity: 0.6, height: '100%'}} style={styles.header} resizeMode='cover' source={require('../images/bg.png')}>
       <SafeAreaView style={styles.container}>
-          <Ionicons name='information-circle-sharp' size={40} color={'#fff'} style={styles.topRight}/>
+        <Ionicons onPress={() => setRoomSettingsModalVisible(true)} name='information-circle-sharp' size={40} color={'#fff'} style={styles.topRight}/>
           <Text style={[styles.titleText, styles.topLeft]}>Sean's Queue</Text>
           <Text style={[styles.titleText, styles.bottomRight]}>#1234</Text>
       </SafeAreaView>

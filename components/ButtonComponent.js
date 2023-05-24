@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function ButtonComponent(props){
   return (
-    <LinearGradient colors={['#BC7AF7', '#28184E']} start={[0,0]} end={[1,1]} style={styles.gradient}>
+    <LinearGradient colors={[props.color ? props.color : '#BC7AF7', '#28184E']} start={[0,0]} end={[1,1]} style={styles.gradient}>
         <Text style={styles.text}>{props.name}</Text>
     </LinearGradient>
   )
