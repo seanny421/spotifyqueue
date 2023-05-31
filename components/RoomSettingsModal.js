@@ -1,8 +1,12 @@
-import { Modal, View, StyleSheet, Pressable, ImageBackground } from "react-native";
+import { Modal, View, StyleSheet, Pressable, ImageBackground, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import ButtonComponent from "./ButtonComponent";
+import { useState } from "react";
 
 export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisible, navigation}){
+  const [changeHeaderImage, setChangeHeaderImage] = useState(false)//show the change header image list
+  //FIXME - temp solution
+  const image1 = require('../assets/bg.png')
   return(
       <Modal
         animationType="fade"
@@ -11,25 +15,41 @@ export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisibl
         onRequestClose={() => {
           setRoomSettingsModalVisible(!isVisible);
         }}>
-          <View style={styles.modalContainer}>
-          <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
-            <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='contain' source={require('../assets/qr.png')}>
-              <View style={{width: 10, height: '40%'}}>
+          {!changeHeaderImage &&
+            <View style={styles.modalContainer}>
+            <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
+              <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}}  resizeMode='contain' source={require('../assets/qr.png')}>
+                <View style={{width: 10, height: '40%'}}>
+                </View>
+              </ImageBackground>
+              <View>
+                <Pressable onPress={() => setChangeHeaderImage(true)}>
+                  <ButtonComponent name="Change header image"/>
+                </Pressable>
+                <Pressable onPress={() => navigation.navigate('Home')}>
+                  <ButtonComponent name="End Session" color={'#F93943'}/>
+                </Pressable>
               </View>
-            </ImageBackground>
-            <View>
-              <Pressable onPress={() => console.log('yo')}>
-                <ButtonComponent name="Change header image"/>
+              <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setRoomSettingsModalVisible(false)}  >
+                <ButtonComponent name="Close"/>
               </Pressable>
-              <Pressable onPress={() => navigation.navigate('Home')}>
-                <ButtonComponent name="End Session" color={'#F93943'}/>
-              </Pressable>
+            </LinearGradient>
             </View>
-            <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setRoomSettingsModalVisible(false)}  >
-              <ButtonComponent name="Close"/>
-            </Pressable>
-          </LinearGradient>
-          </View>
+          }
+          {changeHeaderImage && 
+            <View style={styles.modalContainer}>
+            <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
+              {/* <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='contain' source={image1}> */}
+                <View style={{height: '40%', borderColor: 'red', borderWidth: 2}}>
+                  <Image source={image1} style={{width: '100%'}} resizeMode='contain'/>
+                </View>
+              {/* </ImageBackground> */}
+              <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
+                <ButtonComponent name="Close"/>
+              </Pressable>
+            </LinearGradient>
+            </View>
+          }
       </Modal>
   )
 

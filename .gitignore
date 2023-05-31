@@ -4,7 +4,8 @@ dist/
 npm-debug.*
 *.jks
 *.png
-# *.jpg
+*.jpg
+*.jpeg
 *.ttf
 *.p8
 *.p12
