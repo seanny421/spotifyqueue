@@ -5,6 +5,7 @@ npm-debug.*
 *.jks
 *.png
 *.jpg
+*.jpeg
 *.ttf
 *.p8
 *.p12
