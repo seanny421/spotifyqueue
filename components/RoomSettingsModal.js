@@ -1,22 +1,55 @@
-import { Modal, View, StyleSheet, Pressable, ImageBackground, Image } from "react-native";
+import { Modal, View, StyleSheet, Pressable, ImageBackground, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import ButtonComponent from "./ButtonComponent";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import HeaderChoiceList from "./HeaderChoiceList";
 
 export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisible, navigation}){
   const [changeHeaderImage, setChangeHeaderImage] = useState(false)//show the change header image list
-  //FIXME - temp solution
-  const image1 = require('../assets/bg.png')
+  const slideAnimation = useRef(new Animated.Value(2000)).current
+
+  function slideUp(){
+    Animated.timing(slideAnimation, {
+      toValue: 0,
+      useNativeDriver: true,
+      duration: 500,
+    }).start();
+  }
+
+  function slideDown(){
+    Animated.timing(slideAnimation, {
+      toValue: 2000,
+      useNativeDriver: true,
+      duration: 700,
+    }).start();
+  }
+
+  function handleClose(){
+    slideDown()
+    setTimeout(() => {
+      setChangeHeaderImage(false)
+    }, 400)
+  }
+
+  function handleOpen(){
+    slideUp()
+    setChangeHeaderImage(true)
+  }
+
+  function closeAll(){
+    slideDown()
+    setChangeHeaderImage(false)
+    setRoomSettingsModalVisible(false)
+  }
+
   return(
       <Modal
         animationType="fade"
         visible={isVisible}
         transparent={true}
         onRequestClose={() => {
-          setRoomSettingsModalVisible(!isVisible);
+          closeAll()
         }}>
-          {!changeHeaderImage &&
             <View style={styles.modalContainer}>
             <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
               <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}}  resizeMode='contain' source={require('../assets/qr.png')}>
@@ -24,7 +57,7 @@ export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisibl
                 </View>
               </ImageBackground>
               <View>
-                <Pressable onPress={() => setChangeHeaderImage(true)}>
+                <Pressable onPress={handleOpen} style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]}>
                   <ButtonComponent name="Change header image"/>
                 </Pressable>
                 <Pressable onPress={() => navigation.navigate('Home')}>
@@ -36,26 +69,20 @@ export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisibl
               </Pressable>
             </LinearGradient>
             </View>
-          }
           {changeHeaderImage && 
-            <View style={styles.modalContainer}>
+            <Animated.View style={[styles.modalContainer, {transform: [{translateY: slideAnimation}]}]}>
             <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
-              {/* <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='contain' source={image1}> */}
-                <HeaderChoiceList setChangeHeaderImage={setChangeHeaderImage}/>
-                {/* <View style={{height: '40%', borderColor: 'red', borderWidth: 2}}> */}
-                {/*   <Image source={image1} style={{width: '100%'}} resizeMode='contain'/> */}
-                {/* </View> */}
-              {/* </ImageBackground> */}
+                <HeaderChoiceList handleClose={handleClose} setChangeHeaderImage={setChangeHeaderImage}/>
               <View>
                 <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
                   <ButtonComponent name="Choose custom"/>
                 </Pressable>
-                <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
+                <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={handleClose}>
                   <ButtonComponent name="Close"/>
                 </Pressable>
               </View>
             </LinearGradient>
-            </View>
+            </Animated.View>
           }
       </Modal>
   )

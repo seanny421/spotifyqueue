@@ -1,7 +1,7 @@
 import {useState} from "react"
 import { View, Text, Image, StyleSheet, FlatList, Pressable} from "react-native"
 
-export default function HeaderChoiceList({setChangeHeaderImage}){
+export default function HeaderChoiceList({handleClose}){
   //FIXME - temp solution
   const images = [ 
     require("../assets/option-bg-1.jpeg"),
@@ -14,7 +14,6 @@ export default function HeaderChoiceList({setChangeHeaderImage}){
   ]
   return(
     <View style={styles(false).container}>
-      <Text>Choose Header</Text>
       <FlatList
         showsVerticalScrollIndicator={false}
         style={{width: '100%'}}
@@ -24,7 +23,7 @@ export default function HeaderChoiceList({setChangeHeaderImage}){
         data={images}
         renderItem={({item}) => {
           return(
-            <HeaderImage setChangeHeaderImage={setChangeHeaderImage} image={item}/>
+            <HeaderImage handleClose={handleClose} image={item}/>
           )
 
         }}
@@ -35,17 +34,22 @@ export default function HeaderChoiceList({setChangeHeaderImage}){
 
 }
 
-function HeaderImage({image, setChangeHeaderImage}){
+function HeaderImage({image, handleClose}){
   const [pressed, setPressed] = useState(false)
   function handleImagePress(){
     setPressed(!pressed)
-    setTimeout(() => {
-      setChangeHeaderImage(false)
-    }, 200)
+  }
+
+  function closeWindow(){
+    handleClose()
+    // setTimeout(() => {
+    //   setChangeHeaderImage(false)
+    // }, 200)
+
   }
   return(
       <View style={styles(pressed).imageContianer}>
-        <Pressable onPressIn={handleImagePress} onPressOut={handleImagePress}>
+        <Pressable onPress={closeWindow} onPressIn={handleImagePress} onPressOut={handleImagePress}>
           <Image source={image} resizeMode='cover' style={{borderRadius: 10, width: '100%', height: 100}}/>
         </Pressable>
       </View>
@@ -60,7 +64,7 @@ const styles = (pressed) => StyleSheet.create({
   },
   imageContianer: {
     height: 100, 
-    opacity: pressed ? '0.5': '1',
+    opacity: pressed ? 0.5: 1,
     margin: 5, 
     marginVertical: 10, 
     flex: 0.5, 
