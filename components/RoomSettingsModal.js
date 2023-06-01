@@ -3,6 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import ButtonComponent from "./ButtonComponent";
 import { useRef, useState } from "react";
 import HeaderChoiceList from "./HeaderChoiceList";
+import * as ImagePicker from 'expo-image-picker';
 
 export default function RoomSettingsModal({headerImage, setHeaderImage, isVisible, setRoomSettingsModalVisible, navigation}){
   const [changeHeaderImage, setChangeHeaderImage] = useState(false)//show the change header image list
@@ -42,6 +43,20 @@ export default function RoomSettingsModal({headerImage, setHeaderImage, isVisibl
     setRoomSettingsModalVisible(false)
   }
 
+  async function handleChooseImage(){
+    // const r = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsMultipleSelection: false,
+      allowsEditing: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1
+    })
+    if(!result.canceled){
+      setHeaderImage(result.assets[0].uri)
+    }
+
+  }
+
   return(
       <Modal
         animationType="fade"
@@ -74,7 +89,7 @@ export default function RoomSettingsModal({headerImage, setHeaderImage, isVisibl
             <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
                 <HeaderChoiceList headerImage={headerImage} setHeaderImage={setHeaderImage} handleClose={handleClose} setChangeHeaderImage={setChangeHeaderImage}/>
               <View>
-                <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
+                <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={handleChooseImage}>
                   <ButtonComponent name="Choose custom"/>
                 </Pressable>
                 <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={handleClose}>
