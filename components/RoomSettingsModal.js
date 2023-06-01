@@ -4,7 +4,7 @@ import ButtonComponent from "./ButtonComponent";
 import { useRef, useState } from "react";
 import HeaderChoiceList from "./HeaderChoiceList";
 
-export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisible, navigation}){
+export default function RoomSettingsModal({headerImage, setHeaderImage, isVisible, setRoomSettingsModalVisible, navigation}){
   const [changeHeaderImage, setChangeHeaderImage] = useState(false)//show the change header image list
   const slideAnimation = useRef(new Animated.Value(2000)).current
 
@@ -72,7 +72,7 @@ export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisibl
           {changeHeaderImage && 
             <Animated.View style={[styles.modalContainer, {transform: [{translateY: slideAnimation}]}]}>
             <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
-                <HeaderChoiceList handleClose={handleClose} setChangeHeaderImage={setChangeHeaderImage}/>
+                <HeaderChoiceList headerImage={headerImage} setHeaderImage={setHeaderImage} handleClose={handleClose} setChangeHeaderImage={setChangeHeaderImage}/>
               <View>
                 <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
                   <ButtonComponent name="Choose custom"/>
