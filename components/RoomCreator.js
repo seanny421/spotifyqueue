@@ -1,4 +1,4 @@
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import RoomHeader from './RoomHeader';
 import {useState} from 'react';
@@ -7,10 +7,11 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SearchModal from './SearchModal';
 import RoomSettingsModal from './RoomSettingsModal';
+import defaultImage from '../assets/bg.png';
 
 
 export default function RoomCreator({navigation}) {
-  const [headerImage, setHeaderImage] = useState(require('../assets/bg.png'))
+  const [headerImage, setHeaderImage] = useState(Image.resolveAssetSource(defaultImage).uri)
   //FIXME - TEMP
   const [songData, setSongData] = useState([
     {name: "Still Beating", artist: "Mac Demarco", image: require("../assets/mac-demarco.png")},
