@@ -10,6 +10,7 @@ import RoomSettingsModal from './RoomSettingsModal';
 
 
 export default function RoomCreator({navigation}) {
+  const [headerImage, setHeaderImage] = useState(require('../assets/bg.png'))
   //FIXME - TEMP
   const [songData, setSongData] = useState([
     {name: "Still Beating", artist: "Mac Demarco", image: require("../assets/mac-demarco.png")},
@@ -25,9 +26,9 @@ export default function RoomCreator({navigation}) {
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.gradient}>
       <View style={[styles.container]}>
-        <RoomHeader setRoomSettingsModalVisible={setRoomSettingsModalVisible}/>
+        <RoomHeader headerImage={headerImage} setRoomSettingsModalVisible={setRoomSettingsModalVisible}/>
         <SearchModal isVisible={searchModalVisible} setSearchModalVisible={setSearchModalVisible} />
-        <RoomSettingsModal isVisible={roomSettingsModalVisible} setRoomSettingsModalVisible={setRoomSettingsModalVisible} navigation={navigation}/>
+        <RoomSettingsModal headerImage={headerImage} setHeaderImage={setHeaderImage} isVisible={roomSettingsModalVisible} setRoomSettingsModalVisible={setRoomSettingsModalVisible} navigation={navigation}/>
 
         <SafeAreaView style={{flex: 1}}>
           <DraggableFlatList

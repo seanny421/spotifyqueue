@@ -1,7 +1,7 @@
 import {useState} from "react"
 import { View, Text, Image, StyleSheet, FlatList, Pressable} from "react-native"
 
-export default function HeaderChoiceList({handleClose}){
+export default function HeaderChoiceList({headerImage, setHeaderImage, handleClose}){
   //FIXME - temp solution
   const images = [ 
     require("../assets/option-bg-1.jpeg"),
@@ -23,29 +23,24 @@ export default function HeaderChoiceList({handleClose}){
         data={images}
         renderItem={({item}) => {
           return(
-            <HeaderImage handleClose={handleClose} image={item}/>
+            <HeaderImage setHeaderImage={setHeaderImage} handleClose={handleClose} image={item}/>
           )
-
         }}
         keyExtractor={(item, index) => index}
       />
     </View>
   )
-
 }
 
-function HeaderImage({image, handleClose}){
+function HeaderImage({setHeaderImage, image, handleClose}){
   const [pressed, setPressed] = useState(false)
   function handleImagePress(){
     setPressed(!pressed)
+    setHeaderImage(image)
   }
 
   function closeWindow(){
     handleClose()
-    // setTimeout(() => {
-    //   setChangeHeaderImage(false)
-    // }, 200)
-
   }
   return(
       <View style={styles(pressed).imageContianer}>
