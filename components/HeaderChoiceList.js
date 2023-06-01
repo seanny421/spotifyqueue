@@ -1,16 +1,24 @@
 import {useState} from "react"
-import { View, Text, Image, StyleSheet, FlatList, Pressable} from "react-native"
+import { View, Image, StyleSheet, FlatList, Pressable} from "react-native"
+//FIXME - temp solution
+import option1 from '../assets/option-bg-1.jpeg'
+import option2 from '../assets/option-bg-2.gif'
+import option3 from '../assets/option-bg-3.jpeg'
+import option4 from '../assets/option-bg-4.webp'
+import option5 from '../assets/option-bg-5.jpeg'
+import option6 from '../assets/optional-bg-6.jpeg'
+import option7 from '../assets/option-bg-7.jpeg'
 
-export default function HeaderChoiceList({headerImage, setHeaderImage, handleClose}){
+export default function HeaderChoiceList({ setHeaderImage, handleClose}){
   //FIXME - temp solution
   const images = [ 
-    require("../assets/option-bg-1.jpeg"),
-    require("../assets/option-bg-2.gif"),
-    require("../assets/option-bg-3.jpeg"),
-    require("../assets/option-bg-4.webp"),
-    require("../assets/option-bg-5.jpeg"),
-    require("../assets/optional-bg-6.jpeg"),
-    require("../assets/option-bg-7.jpeg"),
+    Image.resolveAssetSource(option1).uri,
+    Image.resolveAssetSource(option2).uri,
+    Image.resolveAssetSource(option3).uri,
+    Image.resolveAssetSource(option4).uri,
+    Image.resolveAssetSource(option5).uri,
+    Image.resolveAssetSource(option6).uri,
+    Image.resolveAssetSource(option7).uri,
   ]
   return(
     <View style={styles(false).container}>
@@ -42,10 +50,11 @@ function HeaderImage({setHeaderImage, image, handleClose}){
   function closeWindow(){
     handleClose()
   }
+
   return(
       <View style={styles(pressed).imageContianer}>
         <Pressable onPress={closeWindow} onPressIn={handleImagePress} onPressOut={handleImagePress}>
-          <Image source={image} resizeMode='cover' style={{borderRadius: 10, width: '100%', height: 100}}/>
+          <Image source={{uri: image}} resizeMode='cover' style={{borderRadius: 10, width: '100%', height: 100}}/>
         </Pressable>
       </View>
 

@@ -3,7 +3,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function RoomHeader({headerImage, setRoomSettingsModalVisible}){
   return(
-    <ImageBackground imageStyle={{opacity: 0.6, height: '100%'}} style={styles.header} resizeMode='cover' source={headerImage}>
+    <ImageBackground imageStyle={{opacity: 0.6, height: '100%'}} style={styles.header} resizeMode='cover' source={{uri: headerImage}}>
       <SafeAreaView style={styles.container}>
         <Ionicons onPress={() => setRoomSettingsModalVisible(true)} name='information-circle-sharp' size={40} color={'#fff'} style={styles.topRight}/>
           <Text style={[styles.titleText, styles.topLeft]}>Sean's Queue</Text>
