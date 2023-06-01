@@ -2,6 +2,7 @@ import { Modal, View, StyleSheet, Pressable, ImageBackground, Image } from "reac
 import { LinearGradient } from "expo-linear-gradient";
 import ButtonComponent from "./ButtonComponent";
 import { useState } from "react";
+import HeaderChoiceList from "./HeaderChoiceList";
 
 export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisible, navigation}){
   const [changeHeaderImage, setChangeHeaderImage] = useState(false)//show the change header image list
@@ -40,13 +41,19 @@ export default function RoomSettingsModal({isVisible, setRoomSettingsModalVisibl
             <View style={styles.modalContainer}>
             <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={[styles.modalView]}>
               {/* <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='contain' source={image1}> */}
-                <View style={{height: '40%', borderColor: 'red', borderWidth: 2}}>
-                  <Image source={image1} style={{width: '100%'}} resizeMode='contain'/>
-                </View>
+                <HeaderChoiceList setChangeHeaderImage={setChangeHeaderImage}/>
+                {/* <View style={{height: '40%', borderColor: 'red', borderWidth: 2}}> */}
+                {/*   <Image source={image1} style={{width: '100%'}} resizeMode='contain'/> */}
+                {/* </View> */}
               {/* </ImageBackground> */}
-              <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
-                <ButtonComponent name="Close"/>
-              </Pressable>
+              <View>
+                <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
+                  <ButtonComponent name="Choose custom"/>
+                </Pressable>
+                <Pressable style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setChangeHeaderImage(false)}>
+                  <ButtonComponent name="Close"/>
+                </Pressable>
+              </View>
             </LinearGradient>
             </View>
           }
