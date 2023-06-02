@@ -15,7 +15,7 @@ export default function Join({navigation}) {
             <View style={styles.buttonsContainer}>
               <TextInput inputMode='numeric' placeholder='#1234' value={roomCode} onChangeText={setroomCode} style={styles.roomCodeInput}/>
                 
-              <TouchableOpacity onPress={() => navigation.navigate('Join')}>
+              <TouchableOpacity onPress={() => navigation.navigate('RoomJoiner')}>
                 <ButtonComponent name='Join'/>
               </TouchableOpacity>
             </View>

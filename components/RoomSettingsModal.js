@@ -17,11 +17,11 @@ export default function RoomSettingsModal({headerImage, setHeaderImage, isVisibl
     }).start();
   }
 
-  function slideDown(){
+  function slideDown(duration){
     Animated.timing(slideAnimation, {
       toValue: 2000,
       useNativeDriver: true,
-      duration: 700,
+      duration: duration ? duration : 700,
     }).start();
   }
 
@@ -38,13 +38,12 @@ export default function RoomSettingsModal({headerImage, setHeaderImage, isVisibl
   }
 
   function closeAll(){
-    slideDown()
+    slideDown(200)
     setChangeHeaderImage(false)
     setRoomSettingsModalVisible(false)
   }
 
   async function handleChooseImage(){
-    // const r = await ImagePicker.requestMediaLibraryPermissionsAsync();
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsMultipleSelection: false,
       allowsEditing: true,
@@ -52,9 +51,9 @@ export default function RoomSettingsModal({headerImage, setHeaderImage, isVisibl
       quality: 1
     })
     if(!result.canceled){
+      slideDown(200)
       setHeaderImage(result.assets[0].uri)
     }
-
   }
 
   return(
