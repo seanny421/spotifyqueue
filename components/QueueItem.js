@@ -1,8 +1,14 @@
 import { Text, View, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from "react-native"
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
+import {useEffect, useState} from "react";
 
 export default function QueueItem(props){
+  const [favourite, setFavourite] = useState(false)
+
+  useEffect(() => {
+    console.log(favourite + ' ' + props.artist)
+  }, [favourite])
 
   return (
     <View>
@@ -16,9 +22,16 @@ export default function QueueItem(props){
               <Text style={styles.songName}>{props.name}</Text>
               <Text style={styles.artist}>{props.artist}</Text>
             </View>
-          <Pressable onPressIn={props.drag} disabled={props.isActive}>
-            <Ionicons name='ios-menu-outline' size={30} color={'#BC7AF7'}/>
-          </Pressable>
+          {props.drag !== false &&
+            <Pressable onPressIn={props.drag} disabled={props.isActive}>
+              <Ionicons name='ios-menu-outline' size={30} color={'#BC7AF7'}/>
+            </Pressable>
+          }
+          {props.drag == false &&
+            <Pressable onPressIn={() => setFavourite(!favourite)} disabled={props.isActive}>
+              <Ionicons name={favourite ? 'heart' : 'heart-outline'} size={30} color={'#BC7AF7'}/>
+            </Pressable>
+          }
         </LinearGradient>
       </View>
     </View>
