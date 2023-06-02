@@ -6,19 +6,19 @@ import {useEffect, useState} from "react";
 export default function QueueItem(props){
   const [favourite, setFavourite] = useState(false)
 
-  useEffect(() => {
-    console.log(favourite + ' ' + props.artist)
-  }, [favourite])
+  // useEffect(() => {
+  //   console.log(favourite + ' ' + props.artist)
+  // }, [favourite])
 
   return (
     <View>
       <View style={[styles.container, {opacity: props.isActive ? 0.5 : 1}]}>
-        <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='cover' source={props.image}>
+        <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='cover' source={{uri: props.image}}>
         <View style={styles.albumCoverContainer}>
         </View>
         </ImageBackground>
         <LinearGradient colors={['#855DAB', '#1A0D40']} start={[0,0]} end={[1, 0.9]} style={styles.gradient}>
-            <View>
+          <View style={{width: '80%'}}>
               <Text style={styles.songName}>{props.name}</Text>
               <Text style={styles.artist}>{props.artist}</Text>
             </View>

@@ -37,9 +37,9 @@ export default function Home({navigation}) {
     console.log(response?.type)
     if(response?.type === 'success'){
       const {access_token} = response.params;
-      console.log(access_token)
+      // console.log(access_token)
       // console.log(response.params)
-      navigation.navigate('RoomCreator')
+      navigation.navigate('RoomCreator', {accessToken: access_token})
     }
   }, [response])
 
