@@ -15,6 +15,7 @@ export default function RoomCreator({navigation}) {
   const [searchModalVisible, setSearchModalVisible] = useState(false)
   const [roomSettingsModalVisible, setRoomSettingsModalVisible] = useState(false)
   const [queue, setQueue] = useState([])
+  const accessToken = navigation.getState().routes[1].params.accessToken
 
   useEffect(() => {
     getQueue()
@@ -24,7 +25,7 @@ export default function RoomCreator({navigation}) {
     await fetch('https://api.spotify.com/v1/me/player/queue', {
       method: "GET",
       headers: {
-        Authorization: 'Bearer ' + navigation.getState().routes[1].params.accessToken
+        Authorization: 'Bearer ' + accessToken 
       },
     })
       .then(res => res.json())
@@ -38,7 +39,7 @@ export default function RoomCreator({navigation}) {
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.gradient}>
       <View style={[styles.container]}>
         <RoomHeader headerImage={headerImage} setRoomSettingsModalVisible={setRoomSettingsModalVisible}/>
-        <SearchModal isVisible={searchModalVisible} setSearchModalVisible={setSearchModalVisible} />
+        <SearchModal accessToken={accessToken} isVisible={searchModalVisible} setSearchModalVisible={setSearchModalVisible} />
         <RoomSettingsModal headerImage={headerImage} setHeaderImage={setHeaderImage} isVisible={roomSettingsModalVisible} setRoomSettingsModalVisible={setRoomSettingsModalVisible} navigation={navigation}/>
         <SafeAreaView style={{flex: 1}}>
           <DraggableFlatList
