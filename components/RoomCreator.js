@@ -8,6 +8,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import SearchModal from './SearchModal';
 import RoomSettingsModal from './RoomSettingsModal';
 import defaultImage from '../assets/bg.png';
+import { ref, push, child, set } from 'firebase/database';
+import { db } from '../firebaseConfig';
 
 
 export default function RoomCreator({navigation}) {
@@ -18,8 +20,14 @@ export default function RoomCreator({navigation}) {
   const accessToken = navigation.getState().routes[1].params.accessToken
 
   useEffect(() => {
+    addRoomToDB()
     getQueue()
   }, [])
+
+  function addRoomToDB(){
+    const dbRef = ref(db, '/1/accessToken')
+    set(dbRef, accessToken)
+  }
 
   async function getQueue(){
     await fetch('https://api.spotify.com/v1/me/player/queue', {

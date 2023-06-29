@@ -3,9 +3,27 @@ import { LinearGradient } from "expo-linear-gradient";
 import ButtonComponent from './ButtonComponent';
 import {useState} from 'react';
 import BackButton from './BackButton';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../firebaseConfig';
 
 export default function Join({navigation}) {
   const [roomCode, setroomCode] = useState('')
+
+  function joinRoom(){
+    const query = ref(db, roomCode)
+    onValue(query, (snapshot) => {
+      const data = snapshot.val()
+      if(snapshot.exists()){
+        // console.log(data.accessToken)
+        navigation.navigate('RoomJoiner', {accessToken: data.accessToken})
+        // navigation.navigate('RoomJoiner', {
+        //   params: {accessToken: data.accessToken}
+        // })
+      }
+    })
+  }
+
+
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.container}>
       <View style={styles.container}>
@@ -15,7 +33,7 @@ export default function Join({navigation}) {
             <View style={styles.buttonsContainer}>
               <TextInput inputMode='numeric' placeholder='#1234' value={roomCode} onChangeText={setroomCode} style={styles.roomCodeInput}/>
                 
-              <TouchableOpacity onPress={() => navigation.navigate('RoomJoiner')}>
+              <TouchableOpacity onPress={joinRoom}>
                 <ButtonComponent name='Join'/>
               </TouchableOpacity>
             </View>
