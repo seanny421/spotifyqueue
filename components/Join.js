@@ -14,11 +14,10 @@ export default function Join({navigation}) {
     onValue(query, (snapshot) => {
       const data = snapshot.val()
       if(snapshot.exists()){
-        // console.log(data.accessToken)
         navigation.navigate('RoomJoiner', {accessToken: data.accessToken})
-        // navigation.navigate('RoomJoiner', {
-        //   params: {accessToken: data.accessToken}
-        // })
+      }
+      else{
+        console.log('no room with that code')
       }
     })
   }
