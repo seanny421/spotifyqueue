@@ -3,12 +3,19 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
 import {useEffect, useState} from "react";
 
-export default function QueueItem(props){
+export default function QueueItem(props){//multiple optional props such as search (used when the list is a search result)
   const [favourite, setFavourite] = useState(false)
 
-  // useEffect(() => {
-  //   console.log(favourite + ' ' + props.artist)
-  // }, [favourite])
+  function addToQueue(){
+    console.log(props.uri)
+    fetch('https://api.spotify.com/v1/me/player/queue?uri=' + props.uri, {
+      method: "POST",
+      headers: {
+        Authorization: 'Bearer ' + props.accessToken 
+      },
+    })
+      .catch(err => console.log(err))
+  }
 
   return (
     <View>
@@ -27,11 +34,17 @@ export default function QueueItem(props){
               <Ionicons name='ios-menu-outline' size={30} color={'#BC7AF7'}/>
             </Pressable>
           }
-          {props.drag == false &&
+          {props.drag == false && !props.search &&
             <Pressable onPressIn={() => setFavourite(!favourite)} disabled={props.isActive}>
               <Ionicons name={favourite ? 'heart' : 'heart-outline'} size={30} color={'#BC7AF7'}/>
             </Pressable>
           }
+          {props.drag == false && props.search &&
+            <Pressable style={({pressed}) => [{opacity: pressed ? 0.5 : 1 }]} onPress={addToQueue}  >
+              <Ionicons name={'add-circle'} size={35} color={'#BC7AF7'}/>
+            </Pressable>
+          }
+
         </LinearGradient>
       </View>
     </View>
@@ -48,7 +61,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    margin: 10,
+    justifyContent: 'center',
+    marginBottom: 15,
+    // margin: 10,
   },
   gradient: {
     flex: 1,
