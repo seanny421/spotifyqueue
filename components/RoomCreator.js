@@ -1,6 +1,7 @@
 import { StyleSheet, View, SafeAreaView, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import RoomHeader from './RoomHeader';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect, useState} from 'react';
 import QueueItem from './QueueItem';
 import DraggableFlatList from 'react-native-draggable-flatlist';
@@ -8,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import SearchModal from './SearchModal';
 import RoomSettingsModal from './RoomSettingsModal';
 import defaultImage from '../assets/bg.png';
-import { ref, push, child, set } from 'firebase/database';
+import { ref, set, onValue } from 'firebase/database';
 import { db } from '../firebaseConfig';
 
 
@@ -20,13 +21,31 @@ export default function RoomCreator({navigation}) {
   const accessToken = navigation.getState().routes[1].params.accessToken
 
   useEffect(() => {
-    addRoomToDB()
     getQueue()
+    addRoomToDB()
   }, [])
 
-  function addRoomToDB(){
-    const dbRef = ref(db, '/1/accessToken')
-    set(dbRef, accessToken)
+  //can't create duplicate rooms, also can't create rooms every time
+  //we log in
+  async function addRoomToDB(){
+    const roomId = await AsyncStorage.getItem("roomId");
+    if(roomId === null){
+      let code = Math.floor(1000 + Math.random() * 9000);//generate random code
+      const mainRef = ref(db)
+      const keys = []
+      onValue(mainRef, (snapshot) => {
+        snapshot.forEach(id => {
+          keys.push(id.key)
+        })
+      })
+      //make sure no duplicates in db
+      while(keys.includes(''+code)){
+        code = Math.floor(1000 + Math.random() * 9000);//generate random code
+      }
+      await AsyncStorage.setItem("roomId", ''+code);
+      const dbRef = ref(db, '/'+ code + '/accessToken')
+      set(dbRef, accessToken)
+    }
   }
 
   async function getQueue(){

@@ -3,26 +3,35 @@ import { LinearGradient } from 'expo-linear-gradient';
 import RoomHeader from './RoomHeader';
 import {useEffect, useState} from 'react';
 import QueueItem from './QueueItem';
-import DraggableFlatList from 'react-native-draggable-flatlist';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SearchModal from './SearchModal';
-import RoomSettingsModal from './RoomSettingsModal';
 import defaultImage from '../assets/bg.png';
 
 
 export default function RoomJoiner({navigation}) {
   const [headerImage, setHeaderImage] = useState(Image.resolveAssetSource(defaultImage).uri)
-  //FIXME - TEMP
-  const [songData, setSongData] = useState([
-    {name: "Still Beating", artist: "Mac Demarco", image: require("../assets/mac-demarco.png")},
-    {name: "Glitter", artist: "Benee", image: require("../assets/benee.png")},
-    {name: "Goodie Bag", artist: "Still Woozy", image: require("../assets/still-woozy.png")},
-    {name: "I Kissed a Girl", artist: "Katy Perry", image: require("../assets/katy-perry.png")},
-    {name: "Heart of Gold", artist: "Neil Young", image: require("../assets/neil-young.png")},
-    {name: "Hey Joe", artist: "Jimi Hendrix", image: require("../assets/hendrix.png")},
-  ])
   const [searchModalVisible, setSearchModalVisible] = useState(false)
   const accessToken = navigation.getState().routes[2].params.accessToken
+  const [queue, setQueue] = useState([])
+
+  useEffect(() => {
+    getQueue()
+  }, [])
+
+  async function getQueue(){
+    await fetch('https://api.spotify.com/v1/me/player/queue', {
+      method: "GET",
+      headers: {
+        Authorization: 'Bearer ' + accessToken 
+      },
+    })
+      .then(res => res.json())
+      .then(r => {
+        console.log(r)
+        setQueue(r.queue)
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.gradient}>
@@ -33,7 +42,7 @@ export default function RoomJoiner({navigation}) {
         <SafeAreaView style={{flex: 1}}>
           <FlatList
             ListHeaderComponent={() => <Ionicons onPress={() => setSearchModalVisible(true)} name='md-add-circle' style={{textAlign: 'center', padding: 10}}  size={50} color={'#BC7AF7'}/>}
-            data={songData}
+            data={queue}
             renderItem={({item, index}) => <QueueItem accessToken={accessToken} image={item.image} isActive={false} drag={false} first={index === 0}  name={item.name} artist={item.artist}/>}
             keyExtractor={(item, index) => index}
           />

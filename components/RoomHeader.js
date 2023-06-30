@@ -1,7 +1,14 @@
 import {SafeAreaView, ImageBackground, StyleSheet, Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
+
 
 export default function RoomHeader({headerImage, setRoomSettingsModalVisible, navigation}){
+  const [roomId, setRoomId] = useState(null)
+  AsyncStorage.getItem('roomId')
+    .then((r) => setRoomId(r))
+
   return(
     <ImageBackground imageStyle={{opacity: 0.6, height: '100%'}} style={styles.header} resizeMode='cover' source={{uri: headerImage}}>
       <SafeAreaView style={styles.container}>
@@ -12,7 +19,7 @@ export default function RoomHeader({headerImage, setRoomSettingsModalVisible, na
           <Ionicons onPress={() => navigation.navigate('Home')} name='exit-outline' size={40} color={'#fff'} style={styles.topRight}/>
         }
         <Text style={[styles.titleText, styles.topLeft]}>Sean's Queue</Text>
-        <Text style={[styles.titleText, styles.bottomRight]}>#1234</Text>
+        <Text style={[styles.titleText, styles.bottomRight]}>#{roomId}</Text>
       </SafeAreaView>
     </ImageBackground>
   )
