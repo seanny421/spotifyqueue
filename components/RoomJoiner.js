@@ -27,7 +27,6 @@ export default function RoomJoiner({navigation}) {
     })
       .then(res => res.json())
       .then(r => {
-        console.log(r)
         setQueue(r.queue)
       })
       .catch(err => console.log(err))
