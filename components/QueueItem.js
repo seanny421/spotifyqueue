@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from "react-native"
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
-import {useEffect, useState} from "react";
+import { useState } from "react";
 
 export default function QueueItem(props){//multiple optional props such as search (used when the list is a search result)
   const [favourite, setFavourite] = useState(false)
@@ -19,15 +19,15 @@ export default function QueueItem(props){//multiple optional props such as searc
 
   return (
     <View>
-      <View style={[styles.container, {opacity: props.isActive ? 0.5 : 1}]}>
-        <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles.header} resizeMode='cover' source={{uri: props.image}}>
-        <View style={styles.albumCoverContainer}>
+      <View style={[styles(props.drag).container, {opacity: props.isActive ? 0.5 : 1}]}>
+        <ImageBackground imageStyle={{borderBottomLeftRadius: 15, borderTopLeftRadius: 15}} style={styles(props.drag).header} resizeMode='cover' source={{uri: props.image}}>
+        <View style={styles(props.drag).albumCoverContainer}>
         </View>
         </ImageBackground>
-        <LinearGradient colors={['#855DAB', '#1A0D40']} start={[0,0]} end={[1, 0.9]} style={styles.gradient}>
+        <LinearGradient colors={['#855DAB', '#1A0D40']} start={[0,0]} end={[1, 0.9]} style={styles(props.drag).gradient}>
           <View style={{width: '80%'}}>
-              <Text style={styles.songName}>{props.name}</Text>
-              <Text style={styles.artist}>{props.artist}</Text>
+              <Text style={styles(props.drag).songName}>{props.name}</Text>
+              <Text style={styles(props.drag).artist}>{props.artist}</Text>
             </View>
           {props.drag !== false &&
             <Pressable onPressIn={props.drag} disabled={props.isActive}>
@@ -51,7 +51,7 @@ export default function QueueItem(props){//multiple optional props such as searc
   )
 }
 
-const styles = StyleSheet.create({
+const styles = (drag) => StyleSheet.create({
   albumCoverContainer: {
     width: 100,
     height: 'auto',
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 15,
-    // margin: 10,
+    marginBottom: drag ? 0 : 15,
+    margin: drag ? 10 : 0,
   },
   gradient: {
     flex: 1,

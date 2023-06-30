@@ -3,7 +3,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import ButtonComponent from "./ButtonComponent";
 import { useRef, useState } from "react";
 import HeaderChoiceList from "./HeaderChoiceList";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
+import {ref, set} from "firebase/database";
+import { db } from "../firebaseConfig";
 
 export default function RoomSettingsModal({headerImage, setHeaderImage, isVisible, setRoomSettingsModalVisible, navigation}){
   const [changeHeaderImage, setChangeHeaderImage] = useState(false)//show the change header image list
@@ -56,6 +59,16 @@ export default function RoomSettingsModal({headerImage, setHeaderImage, isVisibl
     }
   }
 
+  async function handleExit(){
+    const roomId = await AsyncStorage.getItem('roomId')
+    //remove from firebase
+    const dbRef = ref(db, '/' + roomId);
+    set(dbRef, null)
+    //remove from localstorage
+    await AsyncStorage.removeItem('roomId')
+    navigation.navigate('Home')
+  }
+
   return(
       <Modal
         animationType="fade"
@@ -74,7 +87,7 @@ export default function RoomSettingsModal({headerImage, setHeaderImage, isVisibl
                 <Pressable onPress={handleOpen} style={({pressed}) => [{ width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]}>
                   <ButtonComponent name="Change header image"/>
                 </Pressable>
-                <Pressable onPress={() => navigation.navigate('Home')}>
+                <Pressable onPress={handleExit}>
                   <ButtonComponent name="End Session" color={'#F93943'}/>
                 </Pressable>
               </View>
