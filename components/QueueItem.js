@@ -20,9 +20,26 @@ export default function QueueItem(props){//multiple optional props such as searc
       },
     })
       .catch(err => console.log(err))
+    getQueue();
     props.setSearchModalVisible(false);
     props.setSearchText('');
     props.setSearchResult([]);
+  }
+
+
+  async function getQueue(){
+    await fetch('https://api.spotify.com/v1/me/player/queue', {
+      method: "GET",
+      headers: {
+        Authorization: 'Bearer ' + props.accessToken 
+      },
+    })
+      .then(res => res.json())
+      .then(r => {
+        console.log(r.queue)
+        props.setQueue(r.queue)
+      })
+      .catch(err => console.log(err))
   }
 
   return (

@@ -28,6 +28,8 @@ export default function Home({navigation}) {
         "user-read-email",
       ],
       usePKCE: false,
+      //production
+      // redirectUri: "exp://exp.host/@seanmcgeachie/queuehub?release-channel=default",
       redirectUri: "exp://192.168.0.22:19000/",
     },
     discovery
@@ -39,8 +41,6 @@ export default function Home({navigation}) {
       navigation.navigate('RoomCreator', {accessToken: access_token})
     }
   }, [response])
-
-
 
   return (
       <LinearGradient colors={['#3A305B', '#000000']} start={[0.5,0]} end={[1, 0.85]} style={styles.container}>

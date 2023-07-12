@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "application",
-    "slug": "application",
+    "name": "QueueHub",
+    "slug": "queuehub",
+    "description": "A mobile app built with React Native that allows users to join a queue's 'room' and add songs to the queue, users can also favourite songs to boost them higher in the queue",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

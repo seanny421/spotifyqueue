@@ -16,9 +16,10 @@ export default function RoomJoiner({navigation}) {
 
   useEffect(() => {
     getQueue()
-  }, [])
+  })
 
   async function getQueue(){
+    console.log('getting queue');
     await fetch('https://api.spotify.com/v1/me/player/queue', {
       method: "GET",
       headers: {
@@ -42,7 +43,7 @@ export default function RoomJoiner({navigation}) {
           <FlatList
             ListHeaderComponent={() => <Ionicons onPress={() => setSearchModalVisible(true)} name='md-add-circle' style={{textAlign: 'center', padding: 10}}  size={50} color={'#BC7AF7'}/>}
             data={queue}
-            renderItem={({item, index}) => <QueueItem accessToken={accessToken} image={item.album.images[0].url} isActive={false} drag={false} first={index === 0}  name={item.name} artist={item.artists[0].name}/>}
+            renderItem={({item, index}) => <QueueItem getQueue={getQueue} accessToken={accessToken} image={item.album.images[0].url} isActive={false} drag={false} first={index === 0}  name={item.name} artist={item.artists[0].name}/>}
             keyExtractor={(item, index) => index}
           />
         </SafeAreaView>

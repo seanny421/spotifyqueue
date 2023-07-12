@@ -21,9 +21,13 @@ export default function RoomCreator({navigation}) {
   const accessToken = navigation.getState().routes[1].params.accessToken
 
   useEffect(() => {
-    getQueue()
+    // getQueue()
     addRoomToDB()
   }, [])
+
+  useEffect(() => {//this doesn't seem like the best way to do this?
+    getQueue();
+  })
 
   //can't create duplicate rooms, also can't create rooms every time
   //we log in
@@ -75,7 +79,7 @@ export default function RoomCreator({navigation}) {
             onDragEnd={({data}) => {
               setQueue(data)
             }}
-            renderItem={({item, isActive, drag, getIndex}) => <QueueItem image={item.album.images[0].url} isActive={isActive} drag={drag} first={getIndex() === 0} name={item.name} artist={item.artists[0].name}/>}
+            renderItem={({item, isActive, drag, getIndex}) => <QueueItem setQueue={setQueue} image={item.album.images[0].url} isActive={isActive} drag={drag} first={getIndex() === 0} name={item.name} artist={item.artists[0].name}/>}
             keyExtractor={(item, index) => index}
           />
         </SafeAreaView>
