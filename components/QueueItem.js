@@ -2,6 +2,11 @@ import { Text, View, StyleSheet, ImageBackground, Pressable, TouchableOpacity } 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
+import { PixelRatio } from "react-native";
+const fontScale = PixelRatio.getFontScale();
+const getFontSize = size => size / fontScale;
+const getScaledValue = value => value / fontScale;
+import TextTicker from "react-native-text-ticker";
 
 export default function QueueItem(props){//multiple optional props such as search (used when the list is a search result)
   const [favourite, setFavourite] = useState(false)
@@ -15,6 +20,9 @@ export default function QueueItem(props){//multiple optional props such as searc
       },
     })
       .catch(err => console.log(err))
+    props.setSearchModalVisible(false);
+    props.setSearchText('');
+    props.setSearchResult([]);
   }
 
   return (
@@ -26,8 +34,8 @@ export default function QueueItem(props){//multiple optional props such as searc
         </ImageBackground>
         <LinearGradient colors={['#855DAB', '#1A0D40']} start={[0,0]} end={[1, 0.9]} style={styles(props.drag).gradient}>
           <View style={{width: '80%'}}>
-              <Text style={styles(props.drag).songName}>{props.name}</Text>
-              <Text style={styles(props.drag).artist}>{props.artist}</Text>
+              <TextTicker scrollSpeed={40} bounce style={styles(props.drag).songName}>{props.name}</TextTicker>
+              <TextTicker scrollSpeed={40} style={styles(props.drag).artist}>{props.artist}</TextTicker>
             </View>
           {props.drag !== false &&
             <Pressable onPressIn={props.drag} disabled={props.isActive}>
@@ -72,17 +80,18 @@ const styles = (drag) => StyleSheet.create({
     alignItems: 'center',
     borderTopRightRadius: 15,
     borderBottomRightRadius: 15,
-    height: 70,
+    height: getScaledValue(80),
+    overflow: 'hidden',
     paddingHorizontal: 20,
   },
   songName: {
     fontFamily: 'Rubik One',
-    fontSize: 20,
+    fontSize: getFontSize(20),
     color: "#FFF",
   },
   artist: {
     fontFamily: 'Rubik',
-    fontSize: 15,
+    fontSize: getFontSize(15),
     color: "#FFF",
   }
 

@@ -42,7 +42,7 @@ export default function RoomJoiner({navigation}) {
           <FlatList
             ListHeaderComponent={() => <Ionicons onPress={() => setSearchModalVisible(true)} name='md-add-circle' style={{textAlign: 'center', padding: 10}}  size={50} color={'#BC7AF7'}/>}
             data={queue}
-            renderItem={({item, index}) => <QueueItem accessToken={accessToken} image={item.image} isActive={false} drag={false} first={index === 0}  name={item.name} artist={item.artist}/>}
+            renderItem={({item, index}) => <QueueItem accessToken={accessToken} image={item.album.images[0].url} isActive={false} drag={false} first={index === 0}  name={item.name} artist={item.artists[0].name}/>}
             keyExtractor={(item, index) => index}
           />
         </SafeAreaView>

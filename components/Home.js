@@ -34,11 +34,8 @@ export default function Home({navigation}) {
   );
 
   useEffect(() => {
-    console.log(response?.type)
     if(response?.type === 'success'){
       const {access_token} = response.params;
-      // console.log(access_token)
-      // console.log(response.params)
       navigation.navigate('RoomCreator', {accessToken: access_token})
     }
   }, [response])
@@ -84,6 +81,4 @@ const styles = StyleSheet.create({
     color: "#BC7AF7",
     fontFamily: 'Rubik One'
   }
-
-
 });

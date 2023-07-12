@@ -38,7 +38,7 @@ export default function SearchModal({accessToken, isVisible, setSearchModalVisib
                 onDragEnd={({data}) => {
                   setQueue(data)
                 }}
-                renderItem={({item, isActive, index}) => <QueueItem accessToken={accessToken} image={item.album.images[0].url} uri={item.uri} drag={false} search={true} isActive={isActive} first={false} name={item.name} artist={item.artists[0].name}/>}
+                renderItem={({item, isActive, index}) => <QueueItem accessToken={accessToken} image={item.album.images[0].url} uri={item.uri} drag={false} search={true} isActive={isActive} first={false} name={item.name} artist={item.artists[0].name} setSearchModalVisible={setSearchModalVisible} setSearchText={setSearchText} setSearchResult={setSearchResult}/>}
                 keyExtractor={(item, index) => index}
               />
               <Pressable style={({pressed}) => [{marginBottom: '10%', width: '100%', alignItems: 'flex-start', opacity: pressed ? 0.5 : 1 }]} onPress={() => setSearchResult([])}  >

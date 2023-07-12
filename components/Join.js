@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TextInput, View, TouchableOpacity} from 'react-native';
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonComponent from './ButtonComponent';
 import {useState} from 'react';
 import BackButton from './BackButton';
@@ -15,6 +16,7 @@ export default function Join({navigation}) {
       const data = snapshot.val()
       if(snapshot.exists()){
         navigation.navigate('RoomJoiner', {accessToken: data.accessToken})
+        AsyncStorage.setItem("roomId", ''+roomCode);
       }
       else{
         console.log('no room with that code')
